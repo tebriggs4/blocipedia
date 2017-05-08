@@ -1,8 +1,8 @@
 source 'https://rubygems.org'
-
+ 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.5'
-
+ 
 group :production do
   gem 'pg'
   gem 'rails_12factor'
@@ -20,12 +20,12 @@ gem 'jquery-rails'
 gem 'turbolinks'
 gem 'bootstrap-sass'
 gem 'figaro'
-gem 'devise'
+gem 'devise', '4.1.0'
 
 group :development, :test do
   gem 'byebug'
   gem 'spring'
-  gem 'rspec-rails'
+  gem 'rspec-rails', '~> 3.0'
   gem 'shoulda'
   gem 'faker'
   gem 'factory_girl_rails'

@@ -8,19 +8,26 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-  
-  <!-- We check if the user is signed in with if user_signed_in?. If they are, we display their 
-       email address which is the unique identifier and a button to sign out. -->
-  <% if user_signed_in? %>
-    Signed in as: <strong><%= current_user.email %></strong> |
-    <%= link_to 'Edit profile', edit_user_registration_path, :class => 'navbar-link' %> - <%= link_to "Sign Out", destroy_user_session_path, method: :delete, :class => 'navbar-link'  %>
-  <% else %>
-    <!-- We display Sign Up and Sign In buttons if the user is not logged in. -->
-    <%= link_to "Sign Up", new_user_registration_path, :class => 'navbar-link'  %> -
-    <%= link_to "Sign In", new_user_session_path, :class => 'navbar-link'  %>
-  <% end %>
+  <div class="container">
+    <ul class="nav nav-tabs">
+      <li><%= link_to "Home", root_path %></li>
+      <li><%= link_to "About", about_path %></li>
+      <li><%= link_to "Wikis", wikis_path %></li>
+      <div class="pull-right user-info">
+        <!-- We check if the user is signed in with if user_signed_in?. If they are, we display their 
+             email address which is the unique identifier and a button to sign out. -->
+        <% if user_signed_in? %>
+          Signed in as: <strong><%= current_user.email %></strong> |
+          <%= link_to 'Edit profile', edit_user_registration_path, :class => 'navbar-link' %> - <%= link_to "Sign Out", destroy_user_session_path, method: :delete, :class => 'navbar-link'  %>
+        <% else %>
+          <!-- We display Sign Up and Sign In buttons if the user is not logged in. -->
+          <%= link_to "Sign Up", new_user_registration_path, :class => 'navbar-link'  %> -
+          <%= link_to "Sign In", new_user_session_path, :class => 'navbar-link'  %>
+        <% end %>
+      </ul>
+    </div>
 
-  <%= yield %>
-
+    <%= yield %>
+  </div>
 </body>
 </html>
