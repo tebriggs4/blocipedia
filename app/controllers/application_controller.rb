@@ -5,14 +5,12 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
   
-  #after_action :verify_authorized, except: :index
-  #after_action :verify_policy_scoped, only: :index
+  before_action :authenticate_user!, except: [:index, :show, :about]
 
   private
 
   def user_not_authorized
-    flash[:alert] = "You are not authorized to perform this action."
-    redirect_to @wiki
+    redirect_to root_path, notice: "You are not authorized to perform this action."
   end
 
 end

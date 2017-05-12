@@ -1,15 +1,23 @@
 class WikiPolicy < ApplicationPolicy
+    attr_reader :user, :wiki
+    
+    def initialize(user, wiki)
+        @user = user
+        @wiki = wiki
+    end
     
     def index?
         true
     end
     
     def show?
-        true
+        if user
+            (user.role == 'admin' || user == @wiki.user || @wiki.private == false)
+        end
     end
     
     def destroy?
-        true
+        (user.admin? || user == @wiki.user)
     end
         
     class Scope < Scope
@@ -21,7 +29,25 @@ class WikiPolicy < ApplicationPolicy
         end
         
         def resolve
-            scope.all
+            wikis = []
+            if user && user.role == "admin"         # if admin, show all wikis
+                wikis = scope.all
+            elsif user && user.role == 'premium'    # if premium, show public wikis or private wikis they created
+                all_wikis = scope.all
+                all_wikis.each do |wiki|
+                    if (wiki.private == false || wiki.user == user)
+                        wikis << wiki
+                    end
+                end
+            else                                    # if standard or user not signed in, show public wikis
+                all_wikis = scope.all
+                all_wikis.each do |wiki|
+                    if wiki.private == false
+                        wikis << wiki
+                    end
+                end
+            end
+            wikis                                   # return wikis array
         end
     end
   

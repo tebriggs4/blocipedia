@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :confirmable
          
-  # after_initialize { self.role ||= :standard } DO NOT NEED TO DO THIS IF DO DEFAULT IN DATABASE MIGRATION CREATE
+  has_many :wikis
          
   enum role: [:standard, :premium, :admin]
 end
