@@ -1,6 +1,4 @@
 Rails.application.routes.draw do
-  
-  get 'downgrades/new'
 
   # resources instructs Rails to create wiki routes for creating, updating, viewing, and deleting instances of Wiki
   resources :wikis
@@ -10,6 +8,12 @@ Rails.application.routes.draw do
   root 'welcome#index'
   
   devise_for :users
+  
+  resources :wikis do 
+    resources :collaborators
+  end
+
+  delete 'collaborators/destroy'
   
   resources :charges, only: [:new, :create]
   

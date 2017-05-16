@@ -12,7 +12,7 @@ class WikiPolicy < ApplicationPolicy
     
     def show?
         if user
-            (user.role == 'admin' || user == @wiki.user || @wiki.private == false)
+            (user.role == 'admin' || wiki.users.include?(user)|| user == @wiki.user || @wiki.private == false)
         end
     end
     
@@ -35,14 +35,14 @@ class WikiPolicy < ApplicationPolicy
             elsif user && user.role == 'premium'    # if premium, show public wikis or private wikis they created
                 all_wikis = scope.all
                 all_wikis.each do |wiki|
-                    if (wiki.private == false || wiki.user == user)
+                    if (wiki.private == false || wiki.user == user || wiki.users.include?(user))
                         wikis << wiki
                     end
                 end
             else                                    # if standard or user not signed in, show public wikis
                 all_wikis = scope.all
                 all_wikis.each do |wiki|
-                    if wiki.private == false
+                    if (wiki.private == false || wiki.users.include?(user))
                         wikis << wiki
                     end
                 end

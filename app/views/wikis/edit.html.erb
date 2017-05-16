@@ -3,5 +3,14 @@
 <div class="row">
     <div class="col-md-8">
         <%= render partial: 'form', locals: { wiki: @wiki } %>
+        </br>
+        <% if @wiki.private == true %>
+            <h3>Collaborators</h3>
+            <%= form_tag wiki_collaborators_path(@wiki, Collaborator.new) do %>
+                <%= email_field_tag :email %>
+                <%= submit_tag 'Save', class: 'btn btn-success' %>
+            <% end %>
+            <p><%= render partial: 'collaborators/collaborator', locals: {wiki: @wiki, user: current_user} %></p>
+        <% end %>
     </div>
 </div>
